@@ -1,2 +1,2 @@
 # react-movie-web
-React js project
+React js movie web application
