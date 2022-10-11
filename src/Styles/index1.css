@@ -1,0 +1,85 @@
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 10px;
+  }
+  h1{
+    margin: 0;
+    font-size: 2.5em;
+  }
+  p{
+    font-size: 1.4rem ;
+    font-weight: medium;
+    color: rgb(111,111,111);
+
+  }
+  main{
+    display: flex;
+    flex-direction: column ;
+    justify-content: space-between;
+  }
+  .buttons{
+    display: flex;
+    gap: 10px;
+
+  }
+  .cta{
+    font-weight: bold;
+    padding: 10px 20px;
+  }
+  .hire{
+    background-color: white;
+    border: 2px solid black;
+  }
+  .hire:hover{
+    background-color: black;
+    color: white;
+  }
+  .project{
+    background-color: black;
+    border: 2px solid white;
+    color: white;
+  }
+  .project:hover{
+    background-color: white;
+    color:black;
+  }
+  figure{
+    margin: 0;
+    position: relative;
+  }
+  .me-img{
+    border: 5px solid black;
+    border-bottom-left-radius: 50%;
+  }
+  img-bg{
+    width: 580px;
+    height: 450px;
+    background-color: black;
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    border-bottom-left-radius: 50%;
+    z-index:-3 ;
+  }
+  a{
+    border-color: none;
+    color:pink;
+    text-decoration: none;
+  }
+  @media screen and (min-width:800px) {
+    .content{
+      flex-direction: row;
+      margin: 80px;
+    }
+    h1{
+        font-size: 3.5rem;
+    }
+    .cta{
+        padding: 20px 30px;
+        font-size: 1.2rem;
+    }
+
+  }

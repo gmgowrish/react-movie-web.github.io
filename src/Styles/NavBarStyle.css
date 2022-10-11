@@ -1,0 +1,123 @@
+nav {
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  background-color: hsl(197, 100%, 5%);
+  align-items: center;
+  direction: ltr;
+  padding: none;
+  text-align: left;
+}
+nav h1 {
+  color: #fff;
+  margin-left: 40px;
+}
+nav a {
+  text-decoration: none;
+}
+nav span {
+  cursor: pointer;
+  /* background-color: #ee9b00; */
+  margin-left: 40px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+nav span:hover {
+  color: #fff;
+  border-bottom: 2px solid #ee9b00;
+  padding-bottom: 5px;
+}
+span #HomeLight,
+#MoviesLight,
+#TrendingLight,
+#PricingLight {
+  color: #e94b3cff;
+}
+span #HomeLight:hover,
+#MoviesLight:hover,
+#TrendingLight:hover,
+#PricingLight:hover {
+  border-bottom: 2px solid #ff206e;
+  color: #fff;
+}
+
+#navBarColor {
+  color: #fff;
+  background-color: #38bdab;
+  transition: 0.6s;
+}
+.nav-options {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+}
+#heading {
+  color: #fee715ff;
+}
+#navBarColor span:hover {
+  border-bottom: 2px solid #ff206e;
+  padding-bottom: 5px;
+}
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 30px;
+  height: 70%;
+  margin-left: 280px;
+  
+
+}
+#Color-switcher {
+  position: relative;
+  margin-right: 40px;
+  background-color: #413e44;
+  width: 80px;
+  height: 40px;
+  border-radius: 20px;
+}
+#Color-switcher-mover {
+  position: absolute;
+  left: 5px;
+  top: 4px;
+  background-color: #fff;
+  width: 33px;
+  height: 33px;
+  border-radius: 50%;
+  transition: 0.6s;
+}
+#Color-switcher-moved {
+  position: absolute;
+  background-color: #ff206e;
+  left: 40px;
+  top: 4px;
+  width: 33px;
+  height: 33px;
+  border-radius: 50%;
+  transition: 0.6s;
+}
+.input-group input {
+  position: relative;
+  width: 323px;
+  height: 4vh;
+  border-radius: 16px;
+  border: none;
+  margin-right: 30px;
+  
+}
+.input-group input[type="text"] {
+  padding-left: 17px;
+  font-size: 1rem;
+  color: black;
+}
+.input-group input::placeholder {
+  color: black;
+}
+.input-group input:focus {
+  outline: none;
+}
+#search {
+  position: absolute;
+  margin-left: 290px;
+  /* margin-right: 10px; */
+} 
