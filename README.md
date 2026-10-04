@@ -13,7 +13,7 @@ Browse what's trending, dig into details, watch trailers and keep a personal wat
 [![Deploy](https://img.shields.io/github/actions/workflow/status/gmgowrish/react-movie-web.github.io/deploy.yml?branch=main&style=flat-square&label=deploy&logo=github)](https://github.com/gmgowrish/react-movie-web.github.io/actions/workflows/deploy.yml)
 ![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=black)
 ![Vite](https://img.shields.io/badge/Vite-6-646CFF?style=flat-square&logo=vite&logoColor=white)
-![React Router](https://img.shields.io/badge/React_Router-6-CA4245?style=flat-square&logo=reactrouter&logoColor=white)
+![React Router](https://img.shields.io/badge/React_Router-7-CA4245?style=flat-square&logo=reactrouter&logoColor=white)
 ![TMDB](https://img.shields.io/badge/Data-TMDB-01B4E4?style=flat-square&logo=themoviedatabase&logoColor=white)
 
 </div>
@@ -68,7 +68,7 @@ Browse what's trending, dig into details, watch trailers and keep a personal wat
 
 - **[React 18](https://react.dev/)** — UI library (hooks + context for state)
 - **[Vite](https://vitejs.dev/)** — lightning-fast dev server and build tool
-- **[React Router 6](https://reactrouter.com/)** — client-side routing (`HashRouter` for GitHub Pages)
+- **[React Router 7](https://reactrouter.com/)** — client-side routing (`HashRouter` for GitHub Pages)
 - **[React Icons](https://react-icons.github.io/react-icons/)** — icon set
 - **[TMDB API](https://developer.themoviedb.org/)** — movie & TV data, images and trailers
 - **Plain modern CSS** — custom properties, grid, `clamp()`, `aspect-ratio`, `backdrop-filter`; no CSS framework
