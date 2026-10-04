@@ -11,14 +11,14 @@ export function useTmdb(path, params = {}) {
       setState({ data: null, loading: false, error: null });
       return;
     }
-    const ctrl = new AbortController();
+    let active = true;
     setState((s) => ({ ...s, loading: true, error: null }));
-    tmdb(path, params, ctrl.signal)
-      .then((data) => setState({ data, loading: false, error: null }))
-      .catch((error) => {
-        if (error.name !== "AbortError") setState({ data: null, loading: false, error });
-      });
-    return () => ctrl.abort();
+    tmdb(path, params)
+      .then((data) => active && setState({ data, loading: false, error: null }))
+      .catch((error) => active && setState({ data: null, loading: false, error }));
+    return () => {
+      active = false;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
 
@@ -37,10 +37,11 @@ export function usePaginated(path, params = {}) {
       setState({ items: [], totalPages: 1, loading: false, error: null });
       return;
     }
-    const ctrl = new AbortController();
+    let active = true;
     setState((s) => ({ ...s, items: page === 1 ? [] : s.items, loading: true, error: null }));
-    tmdb(path, { ...params, page }, ctrl.signal)
-      .then((data) =>
+    tmdb(path, { ...params, page })
+      .then((data) => {
+        if (!active) return;
         setState((s) => {
           const prev = page === 1 ? [] : s.items;
           const seen = new Set(prev.map((i) => `${i.media_type || ""}-${i.id}`));
@@ -52,12 +53,12 @@ export function usePaginated(path, params = {}) {
             loading: false,
             error: null,
           };
-        })
-      )
-      .catch((error) => {
-        if (error.name !== "AbortError") setState((s) => ({ ...s, loading: false, error }));
-      });
-    return () => ctrl.abort();
+        });
+      })
+      .catch((error) => active && setState((s) => ({ ...s, loading: false, error })));
+    return () => {
+      active = false;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key, page]);
 

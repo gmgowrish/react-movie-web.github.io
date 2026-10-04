@@ -1,6 +1,6 @@
 import { AiFillStar, AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { BsPlayFill } from "react-icons/bs";
-import { imageUrl, mediaTypeOf, ratingOf, titleOf, yearOf } from "../api/tmdb";
+import { imageSrcSet, imageUrl, mediaTypeOf, ratingOf, titleOf, yearOf } from "../api/tmdb";
 import { useApp } from "../context/AppContext";
 import noImage from "../assets/no-image.jpg";
 
@@ -13,7 +13,14 @@ export default function MediaCard({ item, type }) {
   return (
     <article className="card">
       <button className="card__poster" onClick={() => openDetails(item, type)} aria-label={`Open ${titleOf(item)}`}>
-        <img src={imageUrl(item.poster_path, "w342") || noImage} alt="" loading="lazy" />
+        <img
+          src={imageUrl(item.poster_path, "w342") || noImage}
+          srcSet={imageSrcSet(item.poster_path, [185, 342])}
+          sizes="(max-width: 640px) 33vw, 180px"
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
         <span className="card__overlay">
           <BsPlayFill />
         </span>

@@ -110,6 +110,10 @@ h3 {
   min-height: 70vh;
 }
 
+.page-loading {
+  min-height: 70vh;
+}
+
 .stack {
   display: flex;
   flex-direction: column;

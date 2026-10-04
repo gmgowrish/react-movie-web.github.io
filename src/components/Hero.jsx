@@ -1,18 +1,31 @@
 import { useEffect, useState } from "react";
 import { AiFillStar, AiFillHeart, AiOutlinePlus } from "react-icons/ai";
 import { BsInfoCircle } from "react-icons/bs";
-import { imageUrl, mediaTypeOf, ratingOf, titleOf, yearOf } from "../api/tmdb";
+import { imageSrcSet, imageUrl, mediaTypeOf, ratingOf, titleOf, yearOf } from "../api/tmdb";
 import { useApp } from "../context/AppContext";
 
 export default function Hero({ items }) {
   const slides = items.filter((i) => i.backdrop_path).slice(0, 6);
   const [index, setIndex] = useState(0);
+  // Only slides in `loaded` get an <img>, so we never download all backdrops up front.
+  const [loaded, setLoaded] = useState(() => new Set([0]));
   const { openDetails, toggleWatchlist, isInWatchlist } = useApp();
+
+  const show = (i) => {
+    setLoaded((prev) => (prev.has(i) ? prev : new Set(prev).add(i)));
+    setIndex(i);
+  };
+
+  // Once the current backdrop has loaded, warm up the next one before it's shown.
+  const preloadNext = (i) => {
+    const next = (i + 1) % slides.length;
+    setTimeout(() => setLoaded((prev) => (prev.has(next) ? prev : new Set(prev).add(next))), 2500);
+  };
 
   useEffect(() => {
     if (slides.length < 2) return;
-    const t = setInterval(() => setIndex((i) => (i + 1) % slides.length), 8000);
-    return () => clearInterval(t);
+    const t = setTimeout(() => show((index + 1) % slides.length), 8000);
+    return () => clearTimeout(t);
   }, [slides.length, index]);
 
   if (!slides.length) return <div className="hero hero--empty skeleton" />;
@@ -21,15 +34,22 @@ export default function Hero({ items }) {
 
   return (
     <section className="hero">
-      {slides.map((s, i) => (
-        <img
-          key={s.id}
-          className={`hero__bg ${i === index ? "is-active" : ""}`}
-          src={imageUrl(s.backdrop_path, "original")}
-          alt=""
-          aria-hidden
-        />
-      ))}
+      {slides.map((s, i) =>
+        loaded.has(i) ? (
+          <img
+            key={s.id}
+            className={`hero__bg ${i === index ? "is-active" : ""}`}
+            src={imageUrl(s.backdrop_path, "w1280")}
+            srcSet={imageSrcSet(s.backdrop_path, [780, 1280])}
+            sizes="100vw"
+            alt=""
+            aria-hidden
+            fetchpriority={i === 0 ? "high" : "low"}
+            decoding="async"
+            onLoad={() => i === index && preloadNext(i)}
+          />
+        ) : null
+      )}
       <div className="hero__shade" />
       <div className="hero__content container" key={item.id}>
         <span className="pill">#{index + 1} Trending · {mediaTypeOf(item) === "tv" ? "TV Series" : "Movie"}</span>
@@ -55,7 +75,7 @@ export default function Hero({ items }) {
           <button
             key={s.id}
             className={i === index ? "is-active" : ""}
-            onClick={() => setIndex(i)}
+            onClick={() => show(i)}
             aria-label={`Show slide ${i + 1}`}
           />
         ))}
