@@ -104,7 +104,7 @@ Then open **http://localhost:5173** in your browser.
 | Command | Description |
 |---|---|
 | `npm run dev` | Start the development server with hot reload |
-| `npm run build` | Create an optimised production build in `dist/` |
+| `npm run build` | Create an optimised production build in `build/` |
 | `npm run preview` | Serve the production build locally |
 
 ### 🔑 Using your own TMDB API key (optional)
@@ -126,7 +126,7 @@ The app ships with a demo key so it works out of the box. To use your own:
 
 Deployment is fully automated with **GitHub Actions** (`.github/workflows/deploy.yml`):
 
-1. Every push to `main` installs dependencies, runs `npm run build` and uploads `dist/`.
+1. Every push to `main` installs dependencies, runs `npm run build` and uploads `build/`.
 2. The `deploy` job publishes it to GitHub Pages.
 
 **One-time setup** (if you fork this repo):
@@ -134,6 +134,15 @@ Deployment is fully automated with **GitHub Actions** (`.github/workflows/deploy
 1. Go to **Settings → Pages** and set **Source** to **GitHub Actions**.
 2. *(Optional)* Add your TMDB key as a repository secret named **`TMDB_API_KEY`** under **Settings → Secrets and variables → Actions**.
 3. Push to `main`. Your site will be live at `https://<your-username>.github.io/<repo-name>/`.
+
+### Render (alternative)
+
+Create a **Static Site** on [Render](https://render.com) with:
+
+| Setting | Value |
+|---|---|
+| Build command | `npm install && npm run build` |
+| Publish directory | `build` |
 
 > The app uses `HashRouter` and a relative Vite `base`, so it works under any GitHub Pages sub-path, and page refreshes never 404.
 
