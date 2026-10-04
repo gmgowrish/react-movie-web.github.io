@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { AiFillStar, AiFillHeart, AiOutlinePlus } from "react-icons/ai";
 import { BsInfoCircle } from "react-icons/bs";
-import { imageSrcSet, imageUrl, mediaTypeOf, ratingOf, titleOf, yearOf } from "../api/tmdb";
+import { heroBackdropSize, imageUrl, mediaTypeOf, ratingOf, titleOf, yearOf } from "../api/tmdb";
 import { useApp } from "../context/AppContext";
 
 export default function Hero({ items }) {
@@ -39,9 +39,7 @@ export default function Hero({ items }) {
           <img
             key={s.id}
             className={`hero__bg ${i === index ? "is-active" : ""}`}
-            src={imageUrl(s.backdrop_path, "w1280")}
-            srcSet={imageSrcSet(s.backdrop_path, [780, 1280])}
-            sizes="100vw"
+            src={imageUrl(s.backdrop_path, heroBackdropSize())}
             alt=""
             aria-hidden
             fetchpriority={i === 0 ? "high" : "low"}

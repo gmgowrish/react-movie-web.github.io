@@ -16,8 +16,8 @@
   --radius-sm: 10px;
   --nav-h: 68px;
   --gutter: clamp(16px, 4vw, 48px);
-  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-head: "Outfit", "Inter", system-ui, sans-serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-head: "Outfit", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   color-scheme: dark;
 }
 

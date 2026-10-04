@@ -8,17 +8,40 @@
     <link rel="icon" type="image/png" href="./cinema.png" />
     <link rel="apple-touch-icon" href="./logo192.png" />
     <link rel="manifest" href="./manifest.json" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="preconnect" href="https://api.themoviedb.org" crossorigin />
     <link rel="preconnect" href="https://image.tmdb.org" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Heading font loads without blocking the first paint. -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&display=swap" /></noscript>
     <title>ReactFlix — Movies & TV Discovery</title>
     <script>
       try {
         var t = localStorage.getItem("rf-theme");
         if (t) document.documentElement.dataset.theme = t;
       } catch (e) {}
+
+      // Start the hero's data and image downloads before the app code arrives.
+      // Must match tmdb() URLs and heroBackdropSize() in src/api/tmdb.js.
+      (function () {
+        try {
+          var url = "https://api.themoviedb.org/3/trending/all/day?api_key=__TMDB_API_KEY__&language=en-US";
+          var req = fetch(url).then(function (r) {
+            if (!r.ok) throw new Error(r.status);
+            return r.json();
+          });
+          window.__rfPrefetch = {};
+          window.__rfPrefetch[url] = req;
+          req.then(function (d) {
+            var first = d.results.filter(function (i) { return i.backdrop_path; })[0];
+            if (!first) return;
+            var size = matchMedia("(max-width: 640px)").matches ? "w780" : "w1280";
+            var img = new Image();
+            img.fetchPriority = "high";
+            img.src = "https://image.tmdb.org/t/p/" + size + first.backdrop_path;
+          }).catch(function () {});
+        } catch (e) {}
+      })();
     </script>
   </head>
   <body>

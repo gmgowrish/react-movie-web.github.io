@@ -1,5 +1,5 @@
-const API_KEY =
-  import.meta.env.VITE_TMDB_API_KEY || "89e6737d6edec588bddb03c4a212fbb9";
+/* global __TMDB_API_KEY__ */
+const API_KEY = __TMDB_API_KEY__; // injected by vite.config.js
 const BASE_URL = "https://api.themoviedb.org/3";
 
 // In-memory cache of in-flight/completed requests, so revisiting a page or
@@ -31,7 +31,11 @@ export function tmdb(path, params = {}) {
   const key = url.toString();
   if (cache.has(key)) return cache.get(key);
 
-  const request = fetchJson(key).catch((error) =>
+  // index.html starts the home page's first request before this code loads.
+  const prefetched = window.__rfPrefetch?.[key];
+  if (prefetched) delete window.__rfPrefetch[key];
+
+  const request = (prefetched || fetchJson(key)).catch((error) =>
     // Retry once after a short pause to ride out flaky mobile connections.
     error.retryable === false ? Promise.reject(error) : wait(800).then(() => fetchJson(key))
   );
@@ -43,6 +47,10 @@ export function tmdb(path, params = {}) {
 
 export const imageUrl = (path, size = "w500") =>
   path ? `https://image.tmdb.org/t/p/${size}${path}` : null;
+
+/** Hero backdrop size; index.html preloads the first one with the same rule. */
+export const heroBackdropSize = () =>
+  window.matchMedia("(max-width: 640px)").matches ? "w780" : "w1280";
 
 /** Responsive srcset, e.g. imageSrcSet(path, [185, 342]) */
 export const imageSrcSet = (path, widths) =>
