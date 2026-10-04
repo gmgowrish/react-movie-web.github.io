@@ -7,6 +7,18 @@ const BASE_URL = "https://api.themoviedb.org/3";
 const cache = new Map();
 const CACHE_LIMIT = 150;
 
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+async function fetchJson(url) {
+  const res = await fetch(url);
+  if (!res.ok) {
+    const error = new Error(`TMDB request failed (${res.status})`);
+    error.retryable = res.status >= 500 || res.status === 429;
+    throw error;
+  }
+  return res.json();
+}
+
 export function tmdb(path, params = {}) {
   const url = new URL(BASE_URL + path);
   url.searchParams.set("api_key", API_KEY);
@@ -19,10 +31,10 @@ export function tmdb(path, params = {}) {
   const key = url.toString();
   if (cache.has(key)) return cache.get(key);
 
-  const request = fetch(key).then((res) => {
-    if (!res.ok) throw new Error(`TMDB request failed (${res.status})`);
-    return res.json();
-  });
+  const request = fetchJson(key).catch((error) =>
+    // Retry once after a short pause to ride out flaky mobile connections.
+    error.retryable === false ? Promise.reject(error) : wait(800).then(() => fetchJson(key))
+  );
   request.catch(() => cache.delete(key));
   cache.set(key, request);
   if (cache.size > CACHE_LIMIT) cache.delete(cache.keys().next().value);
